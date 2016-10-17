@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dress_id: 1
+  size: 1
+
+two:
+  dress_id: 1
+  size: 2
+
+three:
+  dress_id: 2
+  size: 1
+
+four:
+  dress_id: 3
+  size: 1
+
+five:
+  dress_id: 3
+  size: 2

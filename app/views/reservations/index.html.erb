@@ -1,0 +1,23 @@
+<h3>Reservations</h3>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Reservation List</div>
+  <div class="panel-body">
+  </div>
+  <table class="table">
+  	<tr>
+  		<th>Dress</th>
+  		<th>Size</th>
+  		<th>Delivery On</th>
+  		<th>Return On</th>
+  	</tr>
+  	<% @reservations.each do |reservation| %>
+  		<tr>
+  			<td><%= reservation.dress_size.dress.name %></td>
+  			<td><%= reservation.dress_size.size %></td>
+  			<td><%= reservation.delivery_on %></td>
+  			<td><%= reservation.return_on %></td>
+  		</tr>
+  	<% end %>
+  </table>
+</div>

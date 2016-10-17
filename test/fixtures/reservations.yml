@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dress_size_id: 1
+  delivery_on: 2016-10-03
+  return_on: 2016-10-06
+
+two:
+  dress_size_id: 2
+  delivery_on: 2016-10-17
+  return_on: 2016-10-20

@@ -1,0 +1,61 @@
+<h3>Reservations</h3>
+<div class="panel panel-default">
+  <div class="panel-heading">Reservation New</div>
+  <div class="panel-body">
+  	<%= render "layouts/error_messages" %>
+  	<%= form_for @reservation, method: :post, class: "form-horizontal" do |f| %>
+  		<div class="form-group">
+	  		<div class="row">
+	  			<div class="col-md-6">
+	  				<%= label_tag "Dress" %><br />
+	  				<%= select_tag "dress_id", options_from_collection_for_select(Dress.all, :id, :name), class: "form-control" %>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	  	<div class="form-group">
+	  		<div class="row">
+	  			<div class="col-md-6">
+	  				<%= label_tag "Size" %><br />
+	  				<%= select_tag "dress_size", options_from_collection_for_select(@dress_sizes, :size, :size), class: "form-control" %>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	  	<div class="form-group">
+	  		<div class="row">
+	  			<div class="col-md-6">
+	  				<%= label_tag "Delivery On" %><br />
+	  				<%= date_select "reservation", "delivery_on" %><br />
+	  				<span>Return Date will be right after 3 days of Delivery Date</span>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	  	<div class="form-group">
+	  		<div class="row">
+	  			<div class="col-md-6">
+	  				<%= f.submit "Create Reservation", class: "btn btn-primary" %>
+	  			</div>
+	  		</div>
+	  	</div>
+  	<% end %>
+  </div>
+</div>
+<script type="text/javascript">
+	$("#dress_id").on("change", function(){
+		var val = $(this).val();
+		$.ajax({
+			url: '/reservations/load_sizes',
+			type: 'GET',
+			dataType: 'script',
+			data: {value: val},
+			success: function(){
+				console.log("Ajax Call Success");
+			},
+			error: function(){
+				console.log("Ajax Call FAilure");
+			}
+		})
+	});
+</script>

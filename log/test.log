@@ -1,0 +1,169 @@
+  [1m[36m (21.3ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL) [0m
+  [1m[35m (3.1ms)[0m  CREATE UNIQUE INDEX  "unique_schema_migrations" ON "schema_migrations"  ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateDresses (20161015052501)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (6.5ms)[0m  [1mCREATE TABLE "dresses" ("id" serial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20161015052501"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateDressSizes (20161015071004)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (2.8ms)[0m  [1mCREATE TABLE "dress_sizes" ("id" serial primary key, "dress_id" integer, "size" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.3ms)[0m  CREATE  INDEX  "index_dress_sizes_on_dress_id" ON "dress_sizes"  ("dress_id")
+  [1m[36m (1.4ms)[0m  [1mALTER TABLE "dress_sizes" ADD CONSTRAINT "fk_rails_553c014286"
+FOREIGN KEY ("dress_id")
+  REFERENCES "dresses" ("id")
+[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20161015071004"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateReservations (20161015082953)
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (4.1ms)[0m  [1mCREATE TABLE "reservations" ("id" serial primary key, "dress_size_id" integer, "delivery_on" date, "return_on" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.3ms)[0m  CREATE  INDEX  "index_reservations_on_dress_size_id" ON "reservations"  ("dress_size_id")
+  [1m[36m (1.2ms)[0m  [1mALTER TABLE "reservations" ADD CONSTRAINT "fk_rails_c12edbafd0"
+FOREIGN KEY ("dress_size_id")
+  REFERENCES "dress_sizes" ("id")
+[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20161015082953"]]
+  [1m[36m (1.1ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (2.4ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'dress_sizes'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.8ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'dresses'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (1.8ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'reservations'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (1.8ms)[0m  ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "dresses" DISABLE TRIGGER ALL;ALTER TABLE "dress_sizes" DISABLE TRIGGER ALL;ALTER TABLE "reservations" DISABLE TRIGGER ALL
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35mFixture Delete (0.5ms)[0m  DELETE FROM "dress_sizes"
+  [1m[36mFixture Insert (2.4ms)[0m  [1mINSERT INTO "dress_sizes" ("dress_id", "size", "created_at", "updated_at", "id") VALUES (1, 1, '2016-10-17 07:08:46', '2016-10-17 07:08:46', 980190962)[0m
+  [1m[35mFixture Insert (0.4ms)[0m  INSERT INTO "dress_sizes" ("dress_id", "size", "created_at", "updated_at", "id") VALUES (1, 2, '2016-10-17 07:08:46', '2016-10-17 07:08:46', 298486374)
+  [1m[36mFixture Insert (0.3ms)[0m  [1mINSERT INTO "dress_sizes" ("dress_id", "size", "created_at", "updated_at", "id") VALUES (2, 1, '2016-10-17 07:08:46', '2016-10-17 07:08:46', 113629430)[0m
+  [1m[35mFixture Insert (0.2ms)[0m  INSERT INTO "dress_sizes" ("dress_id", "size", "created_at", "updated_at", "id") VALUES (3, 1, '2016-10-17 07:08:46', '2016-10-17 07:08:46', 281110143)
+  [1m[36mFixture Insert (0.2ms)[0m  [1mINSERT INTO "dress_sizes" ("dress_id", "size", "created_at", "updated_at", "id") VALUES (3, 2, '2016-10-17 07:08:46', '2016-10-17 07:08:46', 1018350795)[0m
+  [1m[35mFixture Delete (0.3ms)[0m  DELETE FROM "dresses"
+  [1m[36mFixture Insert (0.3ms)[0m  [1mINSERT INTO "dresses" ("name", "created_at", "updated_at", "id") VALUES ('Floral Print Dress', '2016-10-17 07:08:46', '2016-10-17 07:08:46', 980190962)[0m
+  [1m[35mFixture Insert (0.2ms)[0m  INSERT INTO "dresses" ("name", "created_at", "updated_at", "id") VALUES ('Orange Crepe Gown', '2016-10-17 07:08:46', '2016-10-17 07:08:46', 298486374)
+  [1m[36mFixture Insert (0.2ms)[0m  [1mINSERT INTO "dresses" ("name", "created_at", "updated_at", "id") VALUES ('Draped Rose Gown', '2016-10-17 07:08:46', '2016-10-17 07:08:46', 113629430)[0m
+  [1m[35mFixture Delete (0.4ms)[0m  DELETE FROM "reservations"
+  [1m[36mFixture Insert (0.3ms)[0m  [1mINSERT INTO "reservations" ("dress_size_id", "delivery_on", "return_on", "created_at", "updated_at", "id") VALUES (1, '2016-10-03', '2016-10-06', '2016-10-17 07:08:46', '2016-10-17 07:08:46', 980190962)[0m
+  [1m[35mFixture Insert (0.2ms)[0m  INSERT INTO "reservations" ("dress_size_id", "delivery_on", "return_on", "created_at", "updated_at", "id") VALUES (2, '2016-10-17', '2016-10-20', '2016-10-17 07:08:46', '2016-10-17 07:08:46', 298486374)
+  [1m[36m (0.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (2.5ms)[0m  ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "dresses" ENABLE TRIGGER ALL;ALTER TABLE "dress_sizes" ENABLE TRIGGER ALL;ALTER TABLE "reservations" ENABLE TRIGGER ALL
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+-------------------------------
+DressTest: test_should_be_valid
+-------------------------------
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+--------------------------------------
+DressTest: test_name_should_be_present
+--------------------------------------
+  [1m[35m (0.5ms)[0m  ROLLBACK
+  [1m[36m (0.4ms)[0m  [1mBEGIN[0m
+------------------------------------------------
+ReservationFlowTest: test_can_create_reservation
+------------------------------------------------
+Started GET "/reservations/new" for 127.0.0.1 at 2016-10-17 12:38:46 +0530
+Processing by ReservationsController#new as HTML
+  [1m[35mDress Load (0.9ms)[0m  SELECT  "dresses".* FROM "dresses"  ORDER BY "dresses"."id" ASC LIMIT 1
+  Rendered layouts/_error_messages.html.erb (0.4ms)
+  [1m[36mDress Load (0.8ms)[0m  [1mSELECT "dresses".* FROM "dresses"[0m
+  [1m[35mDressSize Load (0.4ms)[0m  SELECT "dress_sizes".* FROM "dress_sizes" WHERE "dress_sizes"."dress_id" = $1  [["dress_id", 113629430]]
+  Rendered reservations/new.html.erb within layouts/application (21.6ms)
+  Rendered layouts/_header.html.erb (0.9ms)
+  Rendered layouts/_footer.html.erb (0.6ms)
+Completed 200 OK in 1572ms (Views: 1539.6ms | ActiveRecord: 2.5ms)
+Started POST "/reservations" for 127.0.0.1 at 2016-10-17 12:38:48 +0530
+Processing by ReservationsController#create as HTML
+  Parameters: {"params"=>{"dress_id"=>"1", "dress_size"=>"1", "delivery_on"=>"2016-12-01"}}
+  [1m[36mDressSize Load (0.7ms)[0m  [1mSELECT  "dress_sizes".* FROM "dress_sizes" WHERE "dress_sizes"."dress_id" IS NULL AND "dress_sizes"."size" IS NULL LIMIT 1[0m
+  Rendered reservations/create.html.erb within layouts/application (0.8ms)
+  Rendered layouts/_header.html.erb (0.4ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 14ms (Views: 7.6ms | ActiveRecord: 0.7ms)
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+-----------------------------------
+DressSizeTest: test_should_be_valid
+-----------------------------------
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+-------------------------------------------
+DressSizeTest: test_size_should_be_a_number
+-------------------------------------------
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+------------------------------------------
+DressSizeTest: test_size_should_be_present
+------------------------------------------
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+-----------------------------------------------
+ReservationsControllerTest: test_should_get_new
+-----------------------------------------------
+Processing by ReservationsController#new as HTML
+  [1m[35mDress Load (0.4ms)[0m  SELECT  "dresses".* FROM "dresses"  ORDER BY "dresses"."id" ASC LIMIT 1
+  Rendered layouts/_error_messages.html.erb (0.1ms)
+  [1m[36mDress Load (0.3ms)[0m  [1mSELECT "dresses".* FROM "dresses"[0m
+  [1m[35mDressSize Load (0.3ms)[0m  SELECT "dress_sizes".* FROM "dress_sizes" WHERE "dress_sizes"."dress_id" = $1  [["dress_id", 113629430]]
+  Rendered reservations/new.html.erb within layouts/application (5.4ms)
+  Rendered layouts/_header.html.erb (0.4ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 10ms (Views: 7.3ms | ActiveRecord: 1.0ms)
+  [1m[36m (0.5ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  BEGIN
+--------------------------------------------------------
+ReservationsControllerTest: test_should_get_availability
+--------------------------------------------------------
+Processing by ReservationsController#availability as HTML
+  [1m[36mDress Load (0.4ms)[0m  [1mSELECT  "dresses".* FROM "dresses"  ORDER BY "dresses"."id" ASC LIMIT 1[0m
+  Rendered layouts/_error_messages.html.erb (0.1ms)
+  [1m[35mDress Load (0.4ms)[0m  SELECT "dresses".* FROM "dresses"
+  [1m[36mDressSize Load (0.3ms)[0m  [1mSELECT "dress_sizes".* FROM "dress_sizes" WHERE "dress_sizes"."dress_id" = $1[0m  [["dress_id", 113629430]]
+  Rendered reservations/availability.html.erb within layouts/application (8.1ms)
+  Rendered layouts/_header.html.erb (0.4ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 14ms (Views: 11.7ms | ActiveRecord: 1.1ms)
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+---------------------------------------------------
+ReservationTest: test_delivery_on_should_be_present
+---------------------------------------------------
+  [1m[35m (0.5ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+-------------------------------------
+ReservationTest: test_should_be_valid
+-------------------------------------
+  [1m[35m (0.3ms)[0m  ROLLBACK

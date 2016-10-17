@@ -1,0 +1,12 @@
+<h3>Reservations</h3>
+<div class="panel panel-default">
+  <div class="panel-heading">Reservation Availability</div>
+  <div class="panel-body">
+  	<div class="col-md-6">
+			Available Dates are : <br />
+			<% @dates.each do |date| %>
+				<%= date.strftime("%Y-%m-%d") %><br />
+			<% end %>
+		</div>
+  </div>
+</div>
