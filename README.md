@@ -19,8 +19,8 @@ Steps:
 
 To Run Application and check on http://localhost:3000 in your local system
 
-7. Run rails s
+- Run rails s
 
 To Run test cases
 
-8. Run rake test
+- Run rake test
